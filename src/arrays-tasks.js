@@ -539,8 +539,13 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  return arr.map((_, index) => {
+    let newIndex = index - n;
+    if (newIndex < 0) newIndex += arr.length;
+    if (newIndex >= arr.length) newIndex -= arr.length;
+    return arr[newIndex];
+  });
 }
 
 /**
@@ -556,8 +561,23 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const numbers = {
+    zero: 0,
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+  };
+  return arr
+    .map((item) => numbers[item])
+    .sort()
+    .map((number) => Object.keys(numbers)[number]);
 }
 
 /**
@@ -574,13 +594,21 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *     head     tail
  *
  *   swapHeadAndTail([ 1, 2 ]) => [ 2, 1 ]
- *   swapHeadAndTail([ 1, 2, 3, 4, 5, 6, 7, 8 ]) =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
+ *   swapHeadAndTail([ 1, 2, 3, 4, 5]) =>  [4, 5, 3, 1, 2]
  *   swapHeadAndTail([ 1 ]) => [ 1 ]
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const half = Math.floor(arr.length / 2);
+  const firstHalf = arr.slice(0, half);
+  let secondHalf = arr.slice(half);
+  let result = [...secondHalf, ...firstHalf];
+  if (arr.length % 2 !== 0) {
+    secondHalf = secondHalf.slice(1);
+    result = [...secondHalf, arr[half], ...firstHalf];
+  }
+  return result;
 }
 
 module.exports = {
